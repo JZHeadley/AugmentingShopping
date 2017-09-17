@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package augmentedshopper.googlevision.camera;
+package com.jzheadley.augmentedshopper.googlevision.camera;
 
 import com.google.android.gms.common.images.Size;
 import com.google.android.gms.vision.CameraSource;

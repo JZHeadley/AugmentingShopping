@@ -1,12 +1,13 @@
-package augmentedshopper.services.api;
+package com.jzheadley.augmentedshopper.services.api;
 
 /**
  * Created by sean on 9/17/17.
  */
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class ResultsList {
 

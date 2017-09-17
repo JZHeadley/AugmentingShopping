@@ -1,4 +1,4 @@
-package augmentedshopper.Adapter;
+package com.jzheadley.augmentedshopper.Adapter;
 
 import android.support.v7.widget.AppCompatRatingBar;
 import android.support.v7.widget.CardView;
@@ -7,9 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import augmentedshopper.R;
 
-import augmentedshopper.services.api.Review;
+import com.jzheadley.augmentedshopper.R;
+import com.jzheadley.augmentedshopper.services.api.Review;
 
 import java.util.List;
 

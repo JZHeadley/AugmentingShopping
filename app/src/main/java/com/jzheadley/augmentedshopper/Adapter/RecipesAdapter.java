@@ -1,4 +1,4 @@
-package augmentedshopper.Adapter;
+package com.jzheadley.augmentedshopper.Adapter;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import com.bumptech.glide.Glide;
 
-import augmentedshopper.R;
-import augmentedshopper.services.api.Recipe;
+import com.bumptech.glide.Glide;
+import com.jzheadley.augmentedshopper.R;
+import com.jzheadley.augmentedshopper.services.api.Recipe;
 
 import java.util.List;
 

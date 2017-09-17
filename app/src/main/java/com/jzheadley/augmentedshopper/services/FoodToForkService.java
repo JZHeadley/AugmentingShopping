@@ -1,6 +1,6 @@
-package augmentedshopper.services;
+package com.jzheadley.augmentedshopper.services;
 
-import augmentedshopper.services.api.FoodToForkApi;
+import com.jzheadley.augmentedshopper.services.api.FoodToForkApi;
 
 public class FoodToForkService {
     private FoodToForkApi foodToForkApi;

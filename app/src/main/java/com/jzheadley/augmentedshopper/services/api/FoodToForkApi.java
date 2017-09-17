@@ -1,8 +1,9 @@
-package augmentedshopper.services.api;
+package com.jzheadley.augmentedshopper.services.api;
 
-import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+
+import io.reactivex.Observable;
 
 public interface FoodToForkApi {
 

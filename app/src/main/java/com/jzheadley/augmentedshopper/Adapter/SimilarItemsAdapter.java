@@ -1,8 +1,5 @@
-package augmentedshopper.Adapter;
+package com.jzheadley.augmentedshopper.Adapter;
 
-import android.content.Intent;
-import android.net.Uri;
-import android.support.v7.widget.AppCompatRatingBar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,13 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.support.v7.app.AppCompatActivity;
-import augmentedshopper.R;
 
-import com.bumptech.glide.Glide;
-
-import augmentedshopper.services.api.Item;
-import augmentedshopper.services.api.ResultsList;
+import com.jzheadley.augmentedshopper.R;
+import com.jzheadley.augmentedshopper.services.api.Item;
 
 import java.util.List;
 

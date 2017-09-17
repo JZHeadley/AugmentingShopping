@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical">
 
-    <augmentedshopper.googlevision.camera.CameraSourcePreview
+    <com.jzheadley.augmentedshopper.googlevision.camera.CameraSourcePreview
         android:id="@+id/preview"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
@@ -15,7 +15,7 @@
         android:visibility="visible">
         <!-- Overlays should go in here -->
 
-    </augmentedshopper.googlevision.camera.CameraSourcePreview>
+    </com.jzheadley.augmentedshopper.googlevision.camera.CameraSourcePreview>
 
     <LinearLayout
         android:id="@+id/btn_group"

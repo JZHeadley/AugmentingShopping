@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     buildToolsVersion "25.0.3"
     defaultConfig {
-        applicationId "augmentedshopper"
+        applicationId "com.jzheadley.augmentedshopper"
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 1

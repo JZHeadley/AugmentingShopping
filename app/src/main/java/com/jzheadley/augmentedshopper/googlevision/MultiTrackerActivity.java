@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package augmentedshopper;
+package com.jzheadley.augmentedshopper.googlevision;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -25,35 +25,37 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
-import augmentedshopper.googlevision.BarcodeTrackerFactory;
-import augmentedshopper.googlevision.camera.CameraSourcePreview;
+
+import com.jzheadley.augmentedshopper.R;
+import com.jzheadley.augmentedshopper.googlevision.camera.CameraSourcePreview;
 
 import java.io.IOException;
+
 
 /**
  * Activity for the multi-tracker app.  This app detects faces and barcodes with the rear facing
  * camera, and draws overlay graphics to indicate the position, size, and ID of each face and
  * barcode.
  */
-public final class MultiTrackerActivity extends AppCompatActivity {
+public final class MultiTrackerActivity extends AppCompatActivity implements BarcodeTracker.BarcodeGraphicTrackerCallback {
     private static final String TAG = "MultiTracker";
     private static final int RC_HANDLE_GMS = 9001;
     // permission request codes need to be < 256
     private static final int RC_HANDLE_CAMERA_PERM = 2;
-
     private CameraSource mCameraSource = null;
     private CameraSourcePreview mPreview;
 
@@ -74,20 +76,6 @@ public final class MultiTrackerActivity extends AppCompatActivity {
         } else {
             requestCameraPermission();
         }
-    }
-
-    public void goToRecipes(View view) {
-        Intent intent = new Intent(view.getContext(), RecipesActivity.class);
-        startActivity(intent);
-    }
-
-    public void goToReviews(View view) {
-        Intent intent = new Intent(view.getContext(), ReviewsActivity.class);
-        startActivity(intent);
-    }
-    public void goToMain(View view) {
-        Intent intent = new Intent(view.getContext(), ItemActivity.class);
-        startActivity(intent);
     }
 
     /**
@@ -129,10 +117,6 @@ public final class MultiTrackerActivity extends AppCompatActivity {
 
         Context context = getApplicationContext();
 
-        // A face detector is created to track faces.  An associated multi-processor instance
-        // is set to receive the face detection results, track the faces, and maintain graphics for
-        // each face on screen.  The factory is used by the multi-processor to create a separate
-        // tracker instance for each face.
         // A barcode detector is created to track barcodes.  An associated multi-processor instance
         // is set to receive the barcode detection results, track the barcodes, and maintain
         // graphics for each barcode on screen.  The factory is used by the multi-processor to
@@ -180,6 +164,7 @@ public final class MultiTrackerActivity extends AppCompatActivity {
         // at long distances.
         mCameraSource = new CameraSource.Builder(getApplicationContext(), multiDetector)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
+                .setAutoFocusEnabled(true)
                 .setRequestedPreviewSize(1600, 1024)
                 .setRequestedFps(15.0f)
                 .build();
@@ -218,53 +203,6 @@ public final class MultiTrackerActivity extends AppCompatActivity {
 
 
     /**
-     * Callback for the result from requesting permissions. This method
-     * is invoked for every call on {@link #requestPermissions(String[], int)}.
-     * <p>
-     * <strong>Note:</strong> It is possible that the permissions request interaction
-     * with the user is interrupted. In this case you will receive empty permissions
-     * and results arrays which should be treated as a cancellation.
-     * </p>
-     *
-     * @param requestCode  The request code passed in {@link #requestPermissions(String[], int)}.
-     * @param permissions  The requested permissions. Never null.
-     * @param grantResults The grant results for the corresponding permissions
-     *                     which is either {@link PackageManager#PERMISSION_GRANTED}
-     *                     or {@link PackageManager#PERMISSION_DENIED}. Never null.
-     * @see #requestPermissions(String[], int)
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode != RC_HANDLE_CAMERA_PERM) {
-            Log.d(TAG, "Got unexpected permission result: " + requestCode);
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            return;
-        }
-
-        if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, "Camera permission granted - initialize the camera source");
-            // we have permission, so create the camerasource
-            createCameraSource();
-            return;
-        }
-
-        Log.e(TAG, "Permission not granted: results len = " + grantResults.length +
-                " Result code = " + (grantResults.length > 0 ? grantResults[0] : "(empty)"));
-
-        DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                finish();
-            }
-        };
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Multitracker sample")
-                .setMessage(R.string.no_camera_permission)
-                .setPositiveButton(R.string.ok, listener)
-                .show();
-    }
-
-    /**
      * Starts or restarts the camera source, if it exists.  If the camera source doesn't exist yet
      * (e.g., because onResume was called before the camera source was created), this will be called
      * again when the camera source is created.
@@ -290,11 +228,19 @@ public final class MultiTrackerActivity extends AppCompatActivity {
         }
     }
 
+    @Override
     public void onDetectedQrCode(final Barcode barcode) {
         Log.d(TAG, "onDetectedQrCode: " + barcode.displayValue);
         runOnUiThread(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
             @Override
             public void run() {
+                LinearLayout layout = (LinearLayout) findViewById(R.id.btn_group);
+                layout.setX((barcode.getBoundingBox().centerX() - 300));
+                layout.setY((barcode.getBoundingBox().centerY() - 300));
+                Log.d(TAG, "run: " + layout.getX() + "\t" + layout.getY());
+
+                layout.bringToFront();
                 Toast.makeText(getApplicationContext(), "Detected a code with text:\t" + barcode.displayValue, Toast.LENGTH_SHORT).show();
             }
         });

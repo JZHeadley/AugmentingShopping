@@ -1,4 +1,5 @@
-package augmentedshopper.services.api;
+package com.jzheadley.augmentedshopper.services.api;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -59,7 +60,8 @@ public class Item {
     public String getTitle() {
         return title;
     }
-    public String getUrl(){
+
+    public String getUrl() {
         return image.getThumbLink();
     }
 

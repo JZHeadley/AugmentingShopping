@@ -1,4 +1,4 @@
-package augmentedshopper;
+package com.jzheadley.augmentedshopper;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -6,11 +6,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import augmentedshopper.Adapter.SimilarItemsAdapter;
-import augmentedshopper.services.GoogleSearchService;
-import augmentedshopper.services.api.GoogleSearchApi;
-import augmentedshopper.services.api.Item;
-import augmentedshopper.services.api.ResultsList;
+import com.jzheadley.augmentedshopper.Adapter.SimilarItemsAdapter;
+import com.jzheadley.augmentedshopper.services.GoogleSearchService;
+import com.jzheadley.augmentedshopper.services.api.GoogleSearchApi;
+import com.jzheadley.augmentedshopper.services.api.Item;
+import com.jzheadley.augmentedshopper.services.api.ResultsList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +24,11 @@ import io.reactivex.schedulers.Schedulers;
 public class SimilarItemsActivity extends AppCompatActivity {
 
     private static final String TAG = "SimilarItemsActivity";
+    public final String cx = "009610786516065341765:eeyebvizksq";
     private List<Item> items = new ArrayList<>();
     private SimilarItemsAdapter adapter;
     private RecyclerView recyclerView;
     private GoogleSearchApi googleSearchApi;
-    public final String cx = "009610786516065341765:eeyebvizksq";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +69,6 @@ public class SimilarItemsActivity extends AppCompatActivity {
 
                     }
                 });
-
 
 
     }

@@ -1,6 +1,6 @@
-package augmentedshopper.services;
+package com.jzheadley.augmentedshopper.services;
 
-import augmentedshopper.services.api.GoogleSearchApi;
+import com.jzheadley.augmentedshopper.services.api.GoogleSearchApi;
 
 public class GoogleSearchService {
     private GoogleSearchApi googleSearchApi;

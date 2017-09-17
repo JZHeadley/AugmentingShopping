@@ -1,4 +1,4 @@
-package augmentedshopper.services.api;
+package com.jzheadley.augmentedshopper.services.api;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

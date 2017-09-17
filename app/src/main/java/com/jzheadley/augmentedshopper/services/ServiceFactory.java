@@ -1,4 +1,4 @@
-package augmentedshopper.services;
+package com.jzheadley.augmentedshopper.services;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

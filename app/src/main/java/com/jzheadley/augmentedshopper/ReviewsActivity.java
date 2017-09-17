@@ -1,12 +1,12 @@
-package augmentedshopper;
+package com.jzheadley.augmentedshopper;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import augmentedshopper.Adapter.ReviewsAdapter;
-import augmentedshopper.services.api.Review;
+import com.jzheadley.augmentedshopper.Adapter.ReviewsAdapter;
+import com.jzheadley.augmentedshopper.services.api.Review;
 
 import java.util.ArrayList;
 import java.util.List;

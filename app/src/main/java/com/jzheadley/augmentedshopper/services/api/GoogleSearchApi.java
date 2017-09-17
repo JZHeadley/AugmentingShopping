@@ -1,12 +1,13 @@
-package augmentedshopper.services.api;
+package com.jzheadley.augmentedshopper.services.api;
 
 /**
  * Created by sean on 9/17/17.
  */
 
-import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+
+import io.reactivex.Observable;
 
 public interface GoogleSearchApi {
 

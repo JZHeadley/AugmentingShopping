@@ -1,7 +1,4 @@
-package augmentedshopper.services.api;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.jzheadley.augmentedshopper.services.api;
 
 public class Review {
     private float rating;
@@ -12,15 +9,15 @@ public class Review {
         this.content = content;
     }
 
+    public Review() {
+    }
+
     @Override
     public String toString() {
         return "Review{" +
                 "rating=" + rating +
                 ", content='" + content + '\'' +
                 '}';
-    }
-
-    public Review() {
     }
 
     public float getRating() {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package augmentedshopper.googlevision;
+package com.jzheadley.augmentedshopper.googlevision;
 
 import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.Tracker;
@@ -38,21 +38,3 @@ public class BarcodeTrackerFactory implements MultiProcessor.Factory<Barcode> {
     }
 }
 
-class BarcodeTracker extends Tracker<Barcode> {
-    private BarcodeGraphicTrackerCallback mListener;
-
-    BarcodeTracker(Context listener) {
-        mListener = (BarcodeGraphicTrackerCallback) listener;
-    }
-
-    @Override
-    public void onNewItem(int id, Barcode item) {
-        if (item.displayValue != null) {
-            mListener.onDetectedQrCode(item);
-        }
-    }
-
-    public interface BarcodeGraphicTrackerCallback {
-        void onDetectedQrCode(Barcode barcode);
-    }
-}

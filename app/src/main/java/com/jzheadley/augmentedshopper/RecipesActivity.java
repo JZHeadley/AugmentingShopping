@@ -1,17 +1,16 @@
-package augmentedshopper;
+package com.jzheadley.augmentedshopper;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 
-import augmentedshopper.Adapter.RecipesAdapter;
-import augmentedshopper.services.FoodToForkService;
-import augmentedshopper.services.api.FoodToForkApi;
-import augmentedshopper.services.api.Recipe;
-import augmentedshopper.services.api.RecipeList;
+import com.jzheadley.augmentedshopper.Adapter.RecipesAdapter;
+import com.jzheadley.augmentedshopper.services.FoodToForkService;
+import com.jzheadley.augmentedshopper.services.api.FoodToForkApi;
+import com.jzheadley.augmentedshopper.services.api.Recipe;
+import com.jzheadley.augmentedshopper.services.api.RecipeList;
 
 import java.util.ArrayList;
 import java.util.List;
