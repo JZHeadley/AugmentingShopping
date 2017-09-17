@@ -15,14 +15,6 @@
  */
 package com.jzheadley.augmentedshopper.googlevision;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.vision.CameraSource;
-import com.google.android.gms.vision.MultiDetector;
-import com.google.android.gms.vision.MultiProcessor;
-import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
@@ -40,6 +32,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.vision.CameraSource;
+import com.google.android.gms.vision.MultiDetector;
+import com.google.android.gms.vision.MultiProcessor;
+import com.google.android.gms.vision.barcode.Barcode;
+import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.jzheadley.augmentedshopper.R;
 import com.jzheadley.augmentedshopper.googlevision.camera.CameraSourcePreview;
 
@@ -166,7 +165,7 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setAutoFocusEnabled(true)
                 .setRequestedPreviewSize(1600, 1024)
-                .setRequestedFps(15.0f)
+                .setRequestedFps(60.0f)
                 .build();
     }
 
@@ -236,10 +235,11 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
             @Override
             public void run() {
                 LinearLayout layout = (LinearLayout) findViewById(R.id.btn_group);
-                layout.setX((barcode.getBoundingBox().centerX() - 300));
-                layout.setY((barcode.getBoundingBox().centerY() - 300));
+                layout.setX(Math.max(Math.min(barcode.getBoundingBox().right - 250, 900), 20));
+                layout.setY(Math.max(Math.min(barcode.getBoundingBox().top + 100, 1000), 20));
+                layout.setScaleX(Math.max(Math.min((barcode.getBoundingBox().width() / 100.0f), 3.2f), 0.2f));
+                layout.setScaleY(Math.max(Math.min((barcode.getBoundingBox().width() / 100.0f), 3.2f), 0.2f));
                 Log.d(TAG, "run: " + layout.getX() + "\t" + layout.getY());
-
                 layout.bringToFront();
                 Toast.makeText(getApplicationContext(), "Detected a code with text:\t" + barcode.displayValue, Toast.LENGTH_SHORT).show();
             }
