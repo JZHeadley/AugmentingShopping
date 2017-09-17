@@ -2,15 +2,15 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/topLayout"
-    android:keepScreenOn="true"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keepScreenOn="true"
     android:orientation="vertical">
 
     <com.jzheadley.augmentedshopper.googlevision.camera.CameraSourcePreview
         android:id="@+id/preview"
-        android:layout_height="fill_parent"
         android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:orientation="vertical"
         android:visibility="visible">
         <!-- Overlays should go in here -->
@@ -19,41 +19,41 @@
 
     <LinearLayout
         android:id="@+id/btn_group"
-        android:layout_height="75dp"
         android:layout_width="wrap_content"
+        android:layout_height="75dp"
         android:orientation="horizontal"
         android:visibility="visible"
         android:weightSum="6">
 
 
         <ImageButton
-            android:background="@drawable/shopping_bag"
             android:id="@+id/shopping"
+            android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
-            android:layout_width="0dp"
+            android:background="@drawable/shopping_bag"
             android:visibility="visible" />
 
 
         <ImageButton
-            android:background="@drawable/star"
-            android:background="@drawable/star"
             android:id="@+id/rating"
+
+            android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="1.91"
-            android:layout_weight="4"
-            android:layout_width="0dp"
+
+            android:background="@drawable/star"
             android:visibility="visible" />
 
 
         <ImageButton
-            android:background="@drawable/spoon"
             android:id="@+id/recipe"
+            android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
-            android:layout_width="0dp"
+            android:background="@drawable/spoon"
             android:visibility="visible" />
 
 
