@@ -1,15 +1,15 @@
 package com.jzheadley.augmentedshopper.services;
 
-import com.jzheadley.augmentedshopper.services.api.FoodToForkApi;
+import com.jzheadley.augmentedshopper.services.api.BarcodeApi;
 
 public class BarcodeService {
-    private FoodToForkApi barcodeapi;
+    private BarcodeApi barcodeapi;
 
     public BarcodeService() {
-        barcodeapi = ServiceFactory.createRetrofitDebugService(FoodToForkApi.class, "https://api.upcitemdb.com/prod/trial/");
+        barcodeapi = ServiceFactory.createRetrofitDebugService(BarcodeApi.class, "https://api.upcitemdb.com/prod/trial/");
     }
 
-    public FoodToForkApi getBarcodeapi() {
+    public BarcodeApi getBarcodeapi() {
         return barcodeapi;
     }
 }

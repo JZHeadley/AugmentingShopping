@@ -38,9 +38,13 @@ public class RecipesActivity extends AppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
+        String foodItem = getIntent().getExtras().getString("foodItem");
+        if (foodItem == null) {
+            foodItem = "beef";
+        }
         recyclerView.setAdapter(adapter);
         foodToForkApi = new FoodToForkService().getFoodToForkApi();
-        foodToForkApi.searchRecipes("e3f92a5ea15f514626145a35d622d350", "beef")//FIX
+        foodToForkApi.searchRecipes("e3f92a5ea15f514626145a35d622d350", foodItem)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<RecipeList>() {

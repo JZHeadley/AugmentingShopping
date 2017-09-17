@@ -15,6 +15,14 @@
  */
 package com.jzheadley.augmentedshopper.googlevision;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.vision.CameraSource;
+import com.google.android.gms.vision.MultiDetector;
+import com.google.android.gms.vision.MultiProcessor;
+import com.google.android.gms.vision.barcode.Barcode;
+import com.google.android.gms.vision.barcode.BarcodeDetector;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
@@ -22,6 +30,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,18 +42,22 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.vision.CameraSource;
-import com.google.android.gms.vision.MultiDetector;
-import com.google.android.gms.vision.MultiProcessor;
-import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.jzheadley.augmentedshopper.PriceComparisonActivity;
 import com.jzheadley.augmentedshopper.R;
+import com.jzheadley.augmentedshopper.RecipesActivity;
 import com.jzheadley.augmentedshopper.ReviewsActivity;
+import com.jzheadley.augmentedshopper.SimilarItemsActivity;
 import com.jzheadley.augmentedshopper.googlevision.camera.CameraSourcePreview;
+import com.jzheadley.augmentedshopper.services.BarcodeService;
+import com.jzheadley.augmentedshopper.services.api.UPCResponse;
 
 import java.io.IOException;
+
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -59,7 +72,6 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
     private static final int RC_HANDLE_CAMERA_PERM = 2;
     private CameraSource mCameraSource = null;
     private CameraSourcePreview mPreview;
-    protected int barCodeValue;
 
     /**
      * Initializes the UI and creates the detector pipeline.
@@ -230,10 +242,75 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
         }
     }
 
+    public void storeSwitcher(final Context view, UPCResponse upcResponse) {
+        Intent intent = new Intent(this, PriceComparisonActivity.class);
+        String searchTerm = upcResponse.getItems().get(0).getTitle();
+        searchTerm = searchTerm.replaceAll(" ", "+");
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("https://www.aisle411.com/shops/results.php?searchTerm=" + searchTerm + "&addressNear=Richmond%2C+VA%2C+USA&mapLocateLat=37.5407246&mapLocateLon=-77.4360481#"));
+        view.startActivity(browserIntent);
+
+
+    }
+
+    public void recipeSwitcher(View view, UPCResponse upcResponse) {
+        Intent intent = new Intent(this, RecipesActivity.class);
+        intent.putExtra("foodItem", upcResponse.getItems().get(0).getTitle());
+        startActivity(intent);
+    }
+
+    public void similarSwitcher(View view, UPCResponse upcResponse) {
+        Intent intent = new Intent(this, SimilarItemsActivity.class);
+        intent.putExtra("similarItem", upcResponse.getItems().get(0).getTitle());
+        startActivity(intent);
+    }
+
     @Override
     public void onDetectedQrCode(final Barcode barcode) {
         Log.d(TAG, "onDetectedQrCode: " + barcode.displayValue);
-        barCodeValue = Integer.parseInt(barcode.displayValue);
+        BarcodeService barcodeService = new BarcodeService();
+        barcodeService.getBarcodeapi().findItemInformation(barcode.displayValue)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<UPCResponse>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull final UPCResponse upcResponse) {
+                        (findViewById(R.id.rating1)).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                storeSwitcher(view.getContext(), upcResponse);
+                            }
+                        });
+                        (findViewById(R.id.rating2)).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                recipeSwitcher(view, upcResponse);
+                            }
+                        });
+                        (findViewById(R.id.rating3)).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                similarSwitcher(view, upcResponse);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
         runOnUiThread(new Runnable() {
             @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
             @Override
@@ -257,5 +334,23 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
             }
         });
 
+    }
+
+    public void onClick(View view) {
+        Intent intent;
+        switch (view.getId()) {
+            case R.id.rating1:
+                intent = new Intent(view.getContext(), ReviewsActivity.class);
+                view.getContext().startActivity(intent);
+                break;
+            case R.id.rating2:
+                intent = new Intent(view.getContext(), ReviewsActivity.class);
+                view.getContext().startActivity(intent);
+                break;
+            case R.id.rating3:
+                intent = new Intent(view.getContext(), ReviewsActivity.class);
+                view.getContext().startActivity(intent);
+                break;
+        }
     }
 }

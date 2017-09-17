@@ -42,7 +42,11 @@ public class SimilarItemsActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
         googleSearchApi = new GoogleSearchService().getGoogleSearchApi();
-        googleSearchApi.searchGoogle("AIzaSyDwSYJNpsaPKOhlATRt_2jEAhwufGEBVW4", cx, "monster energy 16oz")
+        String similarItem = getIntent().getExtras().getString("similarItem");
+        if (similarItem == null) {
+            similarItem = "beef";
+        }
+        googleSearchApi.searchGoogle("AIzaSyDwSYJNpsaPKOhlATRt_2jEAhwufGEBVW4", cx, similarItem)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResultsList>() {
