@@ -28,6 +28,7 @@ public class RecipesActivity extends AppCompatActivity {
     private List<Recipe> recipes = new ArrayList<>();
     private RecipesAdapter adapter;
     private RecyclerView recyclerView;
+    private String foodItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class RecipesActivity extends AppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        String foodItem = getIntent().getExtras().getString("foodItem");
+        foodItem = getIntent().getExtras().getString("foodItem");
         if (foodItem == null) {
             foodItem = "beef";
         }
@@ -75,9 +76,40 @@ public class RecipesActivity extends AppCompatActivity {
 
     public void setRecipes(List<Recipe> recipes) {
         Log.d(TAG, "setRecipes: Recipes Are" + recipes);
-        this.recipes = recipes;
-        adapter = new RecipesAdapter(recipes);
-        recyclerView.setAdapter(adapter);
+        if (recipes.size() > 0) {
+            this.recipes = recipes;
+            adapter = new RecipesAdapter(recipes);
+            recyclerView.setAdapter(adapter);
+        } else {
+            foodToForkApi = new FoodToForkService().getFoodToForkApi();
+            foodToForkApi.searchRecipes("e3f92a5ea15f514626145a35d622d350", "beef")
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<RecipeList>() {
+                        @Override
+                        public void onSubscribe(@NonNull Disposable d) {
+                            Log.d(TAG, "onSubscribe: Subscribed");
+                        }
+
+                        @Override
+                        public void onNext(@NonNull RecipeList recipeList) {
+                            Log.d(TAG, "onNext: " + recipeList);
+                            setRecipes(recipeList.getRecipes());
+                            Log.d(TAG, "onNext: " + recipeList.getRecipes());
+                        }
+
+                        @Override
+                        public void onError(@NonNull Throwable e) {
+                            Log.e(TAG, "onError: ", e);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            Log.d(TAG, "onComplete: finished");
+
+                        }
+                    });
+        }
 
     }
 

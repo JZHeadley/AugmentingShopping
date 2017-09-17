@@ -2,15 +2,15 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/topLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:keepScreenOn="true"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
     android:orientation="vertical">
 
     <com.jzheadley.augmentedshopper.googlevision.camera.CameraSourcePreview
         android:id="@+id/preview"
-        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
         android:orientation="vertical"
         android:visibility="visible">
         <!-- Overlays should go in here -->
@@ -18,60 +18,42 @@
     </com.jzheadley.augmentedshopper.googlevision.camera.CameraSourcePreview>
 
     <LinearLayout
-
         android:id="@+id/btn_group"
-
-        android:layout_width="wrap_content"
-
         android:layout_height="75dp"
-
+        android:layout_width="wrap_content"
         android:orientation="horizontal"
-
         android:visibility="visible"
-
         android:weightSum="6">
 
 
         <ImageButton
-
-            android:id="@+id/shoppping"
-            android:layout_width="0dp"
-
-            android:layout_height="50dp"
-
-            android:layout_marginTop="20dp"
-
-            android:layout_weight="1"
-
             android:background="@drawable/shopping_bag"
-
+            android:id="@+id/shopping"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:visibility="visible" />
 
 
         <ImageButton
-
+            android:background="@drawable/star"
+            android:background="@drawable/star"
             android:id="@+id/rating"
-            android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="1.91"
-            android:background="@drawable/star"
+            android:layout_weight="4"
+            android:layout_width="0dp"
             android:visibility="visible" />
 
 
         <ImageButton
-
-            android:id="@+id/recipe"
-
-            android:layout_width="0dp"
-
-            android:layout_height="50dp"
-
-            android:layout_marginTop="20dp"
-
-            android:layout_weight="1"
-
             android:background="@drawable/spoon"
-
+            android:id="@+id/recipe"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:visibility="visible" />
 
 

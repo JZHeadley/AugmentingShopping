@@ -15,6 +15,14 @@
  */
 package com.jzheadley.augmentedshopper.googlevision;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.vision.CameraSource;
+import com.google.android.gms.vision.MultiDetector;
+import com.google.android.gms.vision.MultiProcessor;
+import com.google.android.gms.vision.barcode.Barcode;
+import com.google.android.gms.vision.barcode.BarcodeDetector;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
@@ -34,16 +42,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.vision.CameraSource;
-import com.google.android.gms.vision.MultiDetector;
-import com.google.android.gms.vision.MultiProcessor;
-import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
-import com.jzheadley.augmentedshopper.PriceComparisonActivity;
 import com.jzheadley.augmentedshopper.R;
 import com.jzheadley.augmentedshopper.RecipesActivity;
+import com.jzheadley.augmentedshopper.ReviewsActivity;
 import com.jzheadley.augmentedshopper.SimilarItemsActivity;
 import com.jzheadley.augmentedshopper.googlevision.camera.CameraSourcePreview;
 import com.jzheadley.augmentedshopper.services.BarcodeService;
@@ -98,7 +99,7 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
     private void requestCameraPermission() {
         Log.w(TAG, "Camera permission is not granted. Requesting permission");
 
-        final String[] permissions = new String[]{Manifest.permission.CAMERA};
+        final String[] permissions = new String[] {Manifest.permission.CAMERA};
 
         if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.CAMERA)) {
@@ -178,7 +179,7 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setAutoFocusEnabled(true)
                 .setRequestedPreviewSize(1600, 1024)
-                .setRequestedFps(60.0f)
+                .setRequestedFps(40.0f)
                 .build();
     }
 
@@ -241,8 +242,12 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
     }
 
     public void storeSwitcher(final Context view, UPCResponse upcResponse) {
-        Intent intent = new Intent(this, PriceComparisonActivity.class);
-        String searchTerm = upcResponse.getItems().get(0).getTitle();
+        String searchTerm;
+        if (upcResponse.getItems().size() > 0) {
+            searchTerm = upcResponse.getItems().get(0).getTitle();
+        } else {
+            searchTerm = "beef";
+        }
         searchTerm = searchTerm.replaceAll(" ", "+");
         Intent browserIntent = new Intent(Intent.ACTION_VIEW,
                 Uri.parse("https://www.aisle411.com/shops/results.php?searchTerm=" + searchTerm + "&addressNear=Richmond%2C+VA%2C+USA&mapLocateLat=37.5407246&mapLocateLon=-77.4360481#"));
@@ -253,13 +258,30 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
 
     public void recipeSwitcher(View view, UPCResponse upcResponse) {
         Intent intent = new Intent(this, RecipesActivity.class);
-        intent.putExtra("foodItem", upcResponse.getItems().get(0).getTitle());
+        String foodItem;
+        if (upcResponse.getItems().size() > 0) {
+            foodItem = upcResponse.getItems().get(0).getTitle();
+        } else {
+            foodItem = "beef";
+        }
+        intent.putExtra("foodItem", foodItem);
         startActivity(intent);
     }
 
     public void similarSwitcher(View view, UPCResponse upcResponse) {
         Intent intent = new Intent(this, SimilarItemsActivity.class);
-        intent.putExtra("similarItem", upcResponse.getItems().get(0).getTitle());
+        String similarItem;
+        if (upcResponse.getItems().size() > 0) {
+            similarItem = upcResponse.getItems().get(0).getTitle();
+        } else {
+            similarItem = "beef";
+        }
+        intent.putExtra("similarItem", similarItem);
+        startActivity(intent);
+    }
+
+    public void reviewSwitcher(View view) {
+        Intent intent = new Intent(this, ReviewsActivity.class);
         startActivity(intent);
     }
 
@@ -267,6 +289,7 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
     public void onDetectedQrCode(final Barcode barcode) {
         Log.d(TAG, "onDetectedQrCode: " + barcode.displayValue);
         BarcodeService barcodeService = new BarcodeService();
+
         barcodeService.getBarcodeapi().findItemInformation(barcode.displayValue)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -278,10 +301,11 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
 
                     @Override
                     public void onNext(@NonNull final UPCResponse upcResponse) {
+                        Log.d(TAG, "onNext: Setting onclikc listeners");
                         (findViewById(R.id.rating)).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                storeSwitcher(view.getContext(), upcResponse);
+                                reviewSwitcher(view);
                             }
                         });
                         (findViewById(R.id.recipe)).setOnClickListener(new View.OnClickListener() {
@@ -290,22 +314,22 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
                                 recipeSwitcher(view, upcResponse);
                             }
                         });
-                        (findViewById(R.id.shoppping)).setOnClickListener(new View.OnClickListener() {
+                        (findViewById(R.id.shopping)).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 similarSwitcher(view, upcResponse);
                             }
+
                         });
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-
+                        Log.e(TAG, "onError: ", e);
                     }
 
                     @Override
                     public void onComplete() {
-
                     }
                 });
 
@@ -333,22 +357,4 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
         });
 
     }
-
-//    public void onClick(View view) {
-//        Intent intent;
-//        switch (view.getId()) {
-//            case R.id.rating1:
-//                intent = new Intent(view.getContext(), ReviewsActivity.class);
-//                view.getContext().startActivity(intent);
-//                break;
-//            case R.id.rating2:
-//                intent = new Intent(view.getContext(), ReviewsActivity.class);
-//                view.getContext().startActivity(intent);
-//                break;
-//            case R.id.rating3:
-//                intent = new Intent(view.getContext(), ReviewsActivity.class);
-//                view.getContext().startActivity(intent);
-//                break;
-//        }
-//    }
 }
