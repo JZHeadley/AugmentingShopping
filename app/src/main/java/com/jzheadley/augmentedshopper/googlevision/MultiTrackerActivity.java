@@ -24,12 +24,13 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -40,6 +41,7 @@ import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.jzheadley.augmentedshopper.R;
+import com.jzheadley.augmentedshopper.ReviewsActivity;
 import com.jzheadley.augmentedshopper.googlevision.camera.CameraSourcePreview;
 
 import java.io.IOException;
@@ -57,6 +59,7 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
     private static final int RC_HANDLE_CAMERA_PERM = 2;
     private CameraSource mCameraSource = null;
     private CameraSourcePreview mPreview;
+    protected int barCodeValue;
 
     /**
      * Initializes the UI and creates the detector pipeline.
@@ -230,18 +233,27 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
     @Override
     public void onDetectedQrCode(final Barcode barcode) {
         Log.d(TAG, "onDetectedQrCode: " + barcode.displayValue);
+        barCodeValue = Integer.parseInt(barcode.displayValue);
         runOnUiThread(new Runnable() {
             @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
             @Override
             public void run() {
-                LinearLayout layout = (LinearLayout) findViewById(R.id.btn_group);
+                final RelativeLayout layout = (RelativeLayout) findViewById(R.id.btn_group);
                 layout.setX(Math.max(Math.min(barcode.getBoundingBox().right - 250, 900), 20));
                 layout.setY(Math.max(Math.min(barcode.getBoundingBox().top + 100, 1000), 20));
                 layout.setScaleX(Math.max(Math.min((barcode.getBoundingBox().width() / 100.0f), 3.2f), 0.2f));
                 layout.setScaleY(Math.max(Math.min((barcode.getBoundingBox().width() / 100.0f), 3.2f), 0.2f));
                 Log.d(TAG, "run: " + layout.getX() + "\t" + layout.getY());
+
                 layout.bringToFront();
-                Toast.makeText(getApplicationContext(), "Detected a code with text:\t" + barcode.displayValue, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getApplicationContext(), "Detected a code with text:\t" + barcode.displayValue, Toast.LENGTH_SHORT).show();
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        layout.setVisibility(View.INVISIBLE);
+                    }
+                }, 7500);
             }
         });
 

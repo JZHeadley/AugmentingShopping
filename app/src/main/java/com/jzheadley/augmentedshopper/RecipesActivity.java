@@ -40,7 +40,7 @@ public class RecipesActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
         foodToForkApi = new FoodToForkService().getFoodToForkApi();
-        foodToForkApi.searchRecipes("e3f92a5ea15f514626145a35d622d350", "beef")
+        foodToForkApi.searchRecipes("e3f92a5ea15f514626145a35d622d350", "beef")//FIX
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<RecipeList>() {
