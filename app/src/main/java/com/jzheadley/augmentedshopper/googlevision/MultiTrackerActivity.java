@@ -32,6 +32,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -237,13 +238,21 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
             @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
             @Override
             public void run() {
-                LinearLayout layout = (LinearLayout) findViewById(R.id.btn_group);
+                final LinearLayout layout = (LinearLayout) findViewById(R.id.btn_group);
+                layout.setVisibility(View.VISIBLE);
                 layout.setX((barcode.getBoundingBox().centerX() - 300));
                 layout.setY((barcode.getBoundingBox().centerY() - 300));
                 Log.d(TAG, "run: " + layout.getX() + "\t" + layout.getY());
 
                 layout.bringToFront();
-                Toast.makeText(getApplicationContext(), "Detected a code with text:\t" + barcode.displayValue, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getApplicationContext(), "Detected a code with text:\t" + barcode.displayValue, Toast.LENGTH_SHORT).show();
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        layout.setVisibility(View.INVISIBLE);
+                    }
+                }, 7500);
             }
         });
 
