@@ -76,6 +76,8 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
         } else {
             requestCameraPermission();
         }
+
+
     }
 
     /**
