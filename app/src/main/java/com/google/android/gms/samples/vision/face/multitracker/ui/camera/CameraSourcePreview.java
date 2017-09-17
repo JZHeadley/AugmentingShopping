@@ -20,6 +20,8 @@ import com.google.android.gms.vision.CameraSource;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -38,6 +40,7 @@ public class CameraSourcePreview extends ViewGroup {
     private CameraSource mCameraSource;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public CameraSourcePreview(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
