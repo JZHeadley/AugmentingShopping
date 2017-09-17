@@ -60,6 +60,7 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
     private static final int RC_HANDLE_CAMERA_PERM = 2;
     private CameraSource mCameraSource = null;
     private CameraSourcePreview mPreview;
+    protected int barCodeValue;
 
     /**
      * Initializes the UI and creates the detector pipeline.
@@ -235,6 +236,7 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
     @Override
     public void onDetectedQrCode(final Barcode barcode) {
         Log.d(TAG, "onDetectedQrCode: " + barcode.displayValue);
+        barCodeValue = Integer.parseInt(barcode.displayValue);
         runOnUiThread(new Runnable() {
             @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
             @Override
