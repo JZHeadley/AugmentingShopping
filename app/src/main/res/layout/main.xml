@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/topLayout"
+    android:keepScreenOn="true"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.gms.samples.vision.face.multitracker.ui.camera.CameraSourcePreview
+        android:id="@+id/preview"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+        <!-- Overlays should go in here -->
+
+    </com.google.android.gms.samples.vision.face.multitracker.ui.camera.CameraSourcePreview>
+
+</LinearLayout>
