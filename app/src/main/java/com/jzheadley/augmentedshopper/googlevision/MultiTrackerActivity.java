@@ -315,9 +315,9 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
             public void run() {
                 final LinearLayout layout = (LinearLayout) findViewById(R.id.btn_group);
                 layout.setVisibility(View.VISIBLE);
-                layout.setX(50);
+                layout.setX(70);
                 layout.setY(100);
-                layout.setScaleX(.7f);
+                layout.setScaleX(1);
                 Log.d(TAG, "run: " + layout.getX() + "\t" + layout.getY());
 
                 layout.bringToFront();

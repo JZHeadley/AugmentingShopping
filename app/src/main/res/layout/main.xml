@@ -52,7 +52,7 @@
 
             android:id="@+id/rating"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="74dp"
             android:layout_weight="1.91"
             android:background="@drawable/star"
             android:visibility="visible" />
