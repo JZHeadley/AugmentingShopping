@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/recipe_card"
+    android:layout_gravity="center"
+    android:layout_height="400dp"
+    android:layout_width="match_parent"
+    >
+
+    <RelativeLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:padding="24dp">
+
+        <ImageView
+            android:id="@+id/recipe_image"
+            android:layout_below="@+id/recipe_ratingBar"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent" />
+
+        <TextView
+            android:id="@+id/recipe_title"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Recipe Title"
+            android:textSize="24sp" />
+
+        <RatingBar
+            android:id="@+id/recipe_ratingBar"
+            android:layout_below="@+id/recipe_title"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            style="?android:ratingBarStyleSmall"
+            android:theme="@style/RatingBar"
+            android:numStars="5"
+            android:stepSize="1.0" />
+
+
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

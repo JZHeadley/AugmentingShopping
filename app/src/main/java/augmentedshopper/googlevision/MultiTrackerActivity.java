@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.android.gms.samples.vision.face.multitracker;
+package augmentedshopper.googlevision;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.samples.vision.face.multitracker.ui.camera.CameraSourcePreview;
+import augmentedshopper.googlevision.camera.CameraSourcePreview;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.MultiDetector;
 import com.google.android.gms.vision.MultiProcessor;
@@ -39,6 +39,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.io.IOException;
+import augmentedshopper.R;
 
 /**
  * Activity for the multi-tracker app.  This app detects faces and barcodes with the rear facing

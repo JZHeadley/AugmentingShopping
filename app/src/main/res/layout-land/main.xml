@@ -7,16 +7,16 @@
     android:layout_width="match_parent"
     android:orientation="horizontal">
 
-    <com.google.android.gms.samples.vision.face.multitracker.ui.camera.CameraSourcePreview
+    <augmentedshopper.googlevision.camera.CameraSourcePreview
         android:id="@+id/preview"
         android:layout_height="match_parent"
         android:layout_width="match_parent">
 
-        <com.google.android.gms.samples.vision.face.multitracker.ui.camera.GraphicOverlay
+        <augmentedshopper.googlevision.camera.GraphicOverlay
             android:id="@+id/faceOverlay"
             android:layout_height="match_parent"
             android:layout_width="match_parent" />
 
-    </com.google.android.gms.samples.vision.face.multitracker.ui.camera.CameraSourcePreview>
+    </augmentedshopper.googlevision.camera.CameraSourcePreview>
 
 </LinearLayout>

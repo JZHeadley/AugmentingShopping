@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="similar_item_title">Item title</string>
+    <string name="similar_item_description">similar item description</string>
     <string name="ok">OK</string>
     <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
     <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
     <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
+    <string name="reviews">Reviews</string>
+    <string name="recipes">Recipes</string>
+    <string name="review_content">Review Content</string>
+    <string name="stores_button_text">Compare prices</string>
+    <string name="recipes_button_text">Find recipes</string>
+    <string name="similar_items_button_text">Similar Items</string>
 </resources>

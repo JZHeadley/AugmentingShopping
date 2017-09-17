@@ -7,12 +7,12 @@
     android:layout_width="match_parent"
     android:orientation="vertical">
 
-    <com.google.android.gms.samples.vision.face.multitracker.ui.camera.CameraSourcePreview
+    <augmentedshopper.googlevision.camera.CameraSourcePreview
         android:id="@+id/preview"
         android:layout_height="match_parent"
         android:layout_width="match_parent">
         <!-- Overlays should go in here -->
 
-    </com.google.android.gms.samples.vision.face.multitracker.ui.camera.CameraSourcePreview>
+    </augmentedshopper.googlevision.camera.CameraSourcePreview>
 
 </LinearLayout>
