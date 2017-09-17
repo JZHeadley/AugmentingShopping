@@ -31,11 +31,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -51,7 +54,6 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
     private static final int RC_HANDLE_GMS = 9001;
     // permission request codes need to be < 256
     private static final int RC_HANDLE_CAMERA_PERM = 2;
-
     private CameraSource mCameraSource = null;
     private CameraSourcePreview mPreview;
 
@@ -198,7 +200,6 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
     }
 
 
-
     /**
      * Starts or restarts the camera source, if it exists.  If the camera source doesn't exist yet
      * (e.g., because onResume was called before the camera source was created), this will be called
@@ -229,8 +230,54 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
     public void onDetectedQrCode(final Barcode barcode) {
         Log.d(TAG, "onDetectedQrCode: " + barcode.displayValue);
         runOnUiThread(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
             @Override
             public void run() {
+                LinearLayout layout = (LinearLayout) findViewById(R.id.btn_group);
+                layout.setX((barcode.getBoundingBox().centerX() - 300));
+                layout.setY((barcode.getBoundingBox().centerY() - 300));
+                Log.d(TAG, "run: " + layout.getX() + "\t" + layout.getY());
+
+                layout.bringToFront();
+                /*if (layout.getChildCount() > 0) {
+                    layout.removeAllViews();
+                }
+                ImageView textView = new ImageView(layout.getContext());
+                Drawable drawable = getResources().getDrawable(R.drawable.common_full_open_on_phone);
+                textView.setImageDrawable(drawable);
+                float x = barcode.getBoundingBox().centerX();
+                float y = barcode.getBoundingBox().centerY();
+                textView.setX((x + drawable.getBounds().width()) / 2);
+                textView.setY((y + drawable.getBounds().width()) / 2);
+                textView.setScaleX(.5f);
+                textView.setScaleY(.5f);
+                textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                layout.addView(textView);
+
+                ImageView textView2 = new ImageView(layout.getContext());
+                Drawable drawable2 = getResources().getDrawable(R.drawable.common_plus_signin_btn_icon_dark);
+                textView.setImageDrawable(drawable2);
+                float x2 = barcode.getBoundingBox().centerX();
+                float y2 = barcode.getBoundingBox().centerY();
+                textView2.setX((x2 + drawable.getBounds().width()) / 2);
+                textView2.setY((y2 + drawable.getBounds().width()) / 2);
+                textView2.setScaleX(.5f);
+                textView2.setScaleY(.5f);
+                textView2.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                layout.addView(textView2);
+
+                ImageView textView3 = new ImageView(layout.getContext());
+                Drawable drawable3 = getResources().getDrawable(R.drawable.icon);
+                textView.setImageDrawable(drawable3);
+                float x3 = barcode.getBoundingBox().centerX();
+                float y3 = barcode.getBoundingBox().centerY();
+                textView3.setX((x3 + drawable.getBounds().width()) / 2);
+                textView3.setY((y3 + drawable.getBounds().width()) / 2);
+                textView3.setScaleX(.5f);
+                textView3.setScaleY(.5f);
+                textView3.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                layout.addView(textView3);*/
+
                 Toast.makeText(getApplicationContext(), "Detected a code with text:\t" + barcode.displayValue, Toast.LENGTH_SHORT).show();
             }
         });

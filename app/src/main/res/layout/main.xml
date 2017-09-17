@@ -9,10 +9,43 @@
 
     <augmentedshopper.googlevision.camera.CameraSourcePreview
         android:id="@+id/preview"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
         <!-- Overlays should go in here -->
 
     </augmentedshopper.googlevision.camera.CameraSourcePreview>
+
+    <LinearLayout
+        android:id="@+id/btn_group"
+        android:layout_height="50dp"
+        android:layout_width="150dp"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+
+        <ImageButton
+            android:background="@drawable/star"
+            android:id="@+id/image1"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:visibility="visible" />
+
+        <ImageButton
+            android:background="@drawable/icon"
+            android:id="@+id/image2"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:visibility="visible" />
+
+        <ImageButton
+            android:background="@drawable/common_google_signin_btn_icon_dark"
+            android:id="@+id/image3"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:visibility="visible" />
+
+    </LinearLayout>
 
 </LinearLayout>
