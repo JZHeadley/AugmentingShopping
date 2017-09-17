@@ -98,7 +98,7 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
     private void requestCameraPermission() {
         Log.w(TAG, "Camera permission is not granted. Requesting permission");
 
-        final String[] permissions = new String[] {Manifest.permission.CAMERA};
+        final String[] permissions = new String[]{Manifest.permission.CAMERA};
 
         if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.CAMERA)) {
@@ -315,8 +315,10 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
             public void run() {
                 final LinearLayout layout = (LinearLayout) findViewById(R.id.btn_group);
                 layout.setVisibility(View.VISIBLE);
-                layout.setX(100);
-                layout.setY(100);
+                layout.setX(Math.max(Math.min(barcode.getBoundingBox().right - 500, 700), 0));
+                layout.setY(Math.max(Math.min(barcode.getBoundingBox().top + 100, 1000), 20));
+                layout.setScaleX(Math.max(Math.min((barcode.getBoundingBox().width() / 100.0f), 1.2f), 0.2f));
+                layout.setScaleY(Math.max(Math.min((barcode.getBoundingBox().width() / 100.0f), 1.2f), 0.2f));
                 Log.d(TAG, "run: " + layout.getX() + "\t" + layout.getY());
 
                 layout.bringToFront();
