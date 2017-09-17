@@ -15,14 +15,6 @@
  */
 package com.jzheadley.augmentedshopper.googlevision;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.vision.CameraSource;
-import com.google.android.gms.vision.MultiDetector;
-import com.google.android.gms.vision.MultiProcessor;
-import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
@@ -39,13 +31,19 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.vision.CameraSource;
+import com.google.android.gms.vision.MultiDetector;
+import com.google.android.gms.vision.MultiProcessor;
+import com.google.android.gms.vision.barcode.Barcode;
+import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.jzheadley.augmentedshopper.PriceComparisonActivity;
 import com.jzheadley.augmentedshopper.R;
 import com.jzheadley.augmentedshopper.RecipesActivity;
-import com.jzheadley.augmentedshopper.ReviewsActivity;
 import com.jzheadley.augmentedshopper.SimilarItemsActivity;
 import com.jzheadley.augmentedshopper.googlevision.camera.CameraSourcePreview;
 import com.jzheadley.augmentedshopper.services.BarcodeService;
@@ -280,19 +278,19 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
 
                     @Override
                     public void onNext(@NonNull final UPCResponse upcResponse) {
-                        (findViewById(R.id.rating1)).setOnClickListener(new View.OnClickListener() {
+                        (findViewById(R.id.rating)).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 storeSwitcher(view.getContext(), upcResponse);
                             }
                         });
-                        (findViewById(R.id.rating2)).setOnClickListener(new View.OnClickListener() {
+                        (findViewById(R.id.recipe)).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 recipeSwitcher(view, upcResponse);
                             }
                         });
-                        (findViewById(R.id.rating3)).setOnClickListener(new View.OnClickListener() {
+                        (findViewById(R.id.shoppping)).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 similarSwitcher(view, upcResponse);
@@ -315,11 +313,10 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
             @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
             @Override
             public void run() {
-                final RelativeLayout layout = (RelativeLayout) findViewById(R.id.btn_group);
-                layout.setX(Math.max(Math.min(barcode.getBoundingBox().right - 250, 900), 20));
-                layout.setY(Math.max(Math.min(barcode.getBoundingBox().top + 100, 1000), 20));
-                layout.setScaleX(Math.max(Math.min((barcode.getBoundingBox().width() / 100.0f), 3.2f), 0.2f));
-                layout.setScaleY(Math.max(Math.min((barcode.getBoundingBox().width() / 100.0f), 3.2f), 0.2f));
+                final LinearLayout layout = (LinearLayout) findViewById(R.id.btn_group);
+                layout.setVisibility(View.VISIBLE);
+                layout.setX(100);
+                layout.setY(100);
                 Log.d(TAG, "run: " + layout.getX() + "\t" + layout.getY());
 
                 layout.bringToFront();
@@ -336,21 +333,21 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
 
     }
 
-    public void onClick(View view) {
-        Intent intent;
-        switch (view.getId()) {
-            case R.id.rating1:
-                intent = new Intent(view.getContext(), ReviewsActivity.class);
-                view.getContext().startActivity(intent);
-                break;
-            case R.id.rating2:
-                intent = new Intent(view.getContext(), ReviewsActivity.class);
-                view.getContext().startActivity(intent);
-                break;
-            case R.id.rating3:
-                intent = new Intent(view.getContext(), ReviewsActivity.class);
-                view.getContext().startActivity(intent);
-                break;
-        }
-    }
+//    public void onClick(View view) {
+//        Intent intent;
+//        switch (view.getId()) {
+//            case R.id.rating1:
+//                intent = new Intent(view.getContext(), ReviewsActivity.class);
+//                view.getContext().startActivity(intent);
+//                break;
+//            case R.id.rating2:
+//                intent = new Intent(view.getContext(), ReviewsActivity.class);
+//                view.getContext().startActivity(intent);
+//                break;
+//            case R.id.rating3:
+//                intent = new Intent(view.getContext(), ReviewsActivity.class);
+//                view.getContext().startActivity(intent);
+//                break;
+//        }
+//    }
 }
