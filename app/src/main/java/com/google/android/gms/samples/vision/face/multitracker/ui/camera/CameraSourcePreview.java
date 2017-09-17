@@ -20,17 +20,13 @@ import com.google.android.gms.vision.CameraSource;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.hardware.Camera;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 import android.view.ViewGroup;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 
 public class CameraSourcePreview extends ViewGroup {
     private static final String TAG = "CameraSourcePreview";
@@ -51,48 +47,13 @@ public class CameraSourcePreview extends ViewGroup {
         mSurfaceView = new SurfaceView(context);
         mSurfaceView.getHolder().addCallback(new SurfaceCallback());
         addView(mSurfaceView);
-        mSurfaceView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cameraFocus(mCameraSource, Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
-            }
-        });
-    }
-
-    private static boolean cameraFocus(@NonNull CameraSource cameraSource, @NonNull String focusMode) {
-        Field[] declaredFields = CameraSource.class.getDeclaredFields();
-
-        for (Field field : declaredFields) {
-            if (field.getType() == Camera.class) {
-                field.setAccessible(true);
-                try {
-                    Camera camera = (Camera) field.get(cameraSource);
-                    if (camera != null) {
-                        Camera.Parameters params = camera.getParameters();
-                        params.setFocusMode(focusMode);
-                        camera.setParameters(params);
-                        return true;
-                    }
-
-                    return false;
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-
-                break;
-            }
-        }
-
-        return false;
     }
 
     public void start(CameraSource cameraSource) throws IOException {
         if (cameraSource == null) {
             stop();
         }
-
         mCameraSource = cameraSource;
-
         if (mCameraSource != null) {
             mStartRequested = true;
             startIfReady();
