@@ -17,7 +17,6 @@ package augmentedshopper.googlevision;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import augmentedshopper.googlevision.camera.CameraSourcePreview;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.MultiDetector;
 import com.google.android.gms.vision.MultiProcessor;
@@ -42,7 +41,9 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.io.IOException;
+
 import augmentedshopper.R;
+import augmentedshopper.googlevision.camera.CameraSourcePreview;
 
 /**
  * Activity for the multi-tracker app.  This app detects faces and barcodes with the rear facing
@@ -239,45 +240,6 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
                 Log.d(TAG, "run: " + layout.getX() + "\t" + layout.getY());
 
                 layout.bringToFront();
-                /*if (layout.getChildCount() > 0) {
-                    layout.removeAllViews();
-                }
-                ImageView textView = new ImageView(layout.getContext());
-                Drawable drawable = getResources().getDrawable(R.drawable.common_full_open_on_phone);
-                textView.setImageDrawable(drawable);
-                float x = barcode.getBoundingBox().centerX();
-                float y = barcode.getBoundingBox().centerY();
-                textView.setX((x + drawable.getBounds().width()) / 2);
-                textView.setY((y + drawable.getBounds().width()) / 2);
-                textView.setScaleX(.5f);
-                textView.setScaleY(.5f);
-                textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                layout.addView(textView);
-
-                ImageView textView2 = new ImageView(layout.getContext());
-                Drawable drawable2 = getResources().getDrawable(R.drawable.common_plus_signin_btn_icon_dark);
-                textView.setImageDrawable(drawable2);
-                float x2 = barcode.getBoundingBox().centerX();
-                float y2 = barcode.getBoundingBox().centerY();
-                textView2.setX((x2 + drawable.getBounds().width()) / 2);
-                textView2.setY((y2 + drawable.getBounds().width()) / 2);
-                textView2.setScaleX(.5f);
-                textView2.setScaleY(.5f);
-                textView2.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                layout.addView(textView2);
-
-                ImageView textView3 = new ImageView(layout.getContext());
-                Drawable drawable3 = getResources().getDrawable(R.drawable.icon);
-                textView.setImageDrawable(drawable3);
-                float x3 = barcode.getBoundingBox().centerX();
-                float y3 = barcode.getBoundingBox().centerY();
-                textView3.setX((x3 + drawable.getBounds().width()) / 2);
-                textView3.setY((y3 + drawable.getBounds().width()) / 2);
-                textView3.setScaleX(.5f);
-                textView3.setScaleY(.5f);
-                textView3.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                layout.addView(textView3);*/
-
                 Toast.makeText(getApplicationContext(), "Detected a code with text:\t" + barcode.displayValue, Toast.LENGTH_SHORT).show();
             }
         });
