@@ -23,6 +23,8 @@ import com.google.android.gms.vision.MultiDetector;
 import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.google.ar.core.Config;
+import com.google.ar.core.Session;
 
 import android.Manifest;
 import android.app.Activity;
@@ -31,6 +33,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.PixelFormat;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -53,6 +57,9 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
 
     private CameraSource mCameraSource = null;
     private CameraSourcePreview mPreview;
+    private Session mSession;
+    private GLSurfaceView mSurfaceView;
+    private Config mDefaultConfig;
 
     /**
      * Initializes the UI and creates the detector pipeline.
@@ -62,7 +69,24 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
         super.onCreate(icicle);
         setContentView(R.layout.main);
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
+        mSession = new Session(/*context=*/this);
+        mSurfaceView = (GLSurfaceView) findViewById(R.id.surface_view);
 
+        mDefaultConfig = Config.createDefaultConfig();
+        mSurfaceView.setZOrderOnTop(true);
+        mSurfaceView.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
+        mSurfaceView.getHolder().setFormat(PixelFormat.RGBA_8888);
+        // mSurfaceView.setPreserveEGLContextOnPause(true);
+        mSurfaceView.setEGLContextClientVersion(2);
+        // mSurfaceView.setEGLConfigChooser(8, 8, 8, 8, 16, 0); // Alpha used for plane blending.
+        mSurfaceView.setRenderer(new SurfaceViewRenderer(this, mSession));
+        mSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+        mSurfaceView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPreview.requestFocus();
+            }
+        });
         // Check for the camera permission before accessing the camera.  If the
         // permission is not granted yet, request permission.
         int rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
@@ -171,7 +195,7 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
     @Override
     protected void onResume() {
         super.onResume();
-
+        mSession.resume(mDefaultConfig);
         startCameraSource();
     }
 
@@ -181,6 +205,7 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
     @Override
     protected void onPause() {
         super.onPause();
+        mSession.pause();
         mPreview.stop();
     }
 
@@ -195,7 +220,6 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
             mCameraSource.release();
         }
     }
-
 
 
     /**
@@ -230,6 +254,8 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                int x = barcode.getBoundingBox().centerX();
+                int y = barcode.getBoundingBox().centerY();
                 Toast.makeText(getApplicationContext(), "Detected a code with text:\t" + barcode.displayValue, Toast.LENGTH_SHORT).show();
             }
         });

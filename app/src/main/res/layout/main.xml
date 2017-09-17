@@ -12,7 +12,10 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent">
         <!-- Overlays should go in here -->
-
+        <android.opengl.GLSurfaceView
+            android:id="@+id/surface_view"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent" />
     </com.google.android.gms.samples.vision.face.multitracker.ui.camera.CameraSourcePreview>
 
 </LinearLayout>

@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.google.android.gms.samples.vision.face.multitracker"
-        minSdkVersion 9
+        minSdkVersion 19
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -18,8 +18,13 @@ android {
         }
     }
 }
-
+repositories {
+    flatDir {
+        dirs './libs'
+    }
+}
 dependencies {
+    compile(name: 'arcore_client', ext: 'aar')
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:support-v4:24.2.0'
     compile 'com.android.support:design:24.2.0'
