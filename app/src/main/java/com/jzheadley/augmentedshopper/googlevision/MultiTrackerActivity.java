@@ -38,10 +38,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.jzheadley.augmentedshopper.R;
+import com.jzheadley.augmentedshopper.ReviewsActivity;
 import com.jzheadley.augmentedshopper.googlevision.camera.CameraSourcePreview;
 
 import java.io.IOException;
@@ -238,7 +239,7 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
             @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
             @Override
             public void run() {
-                final LinearLayout layout = (LinearLayout) findViewById(R.id.btn_group);
+                final RelativeLayout layout = (RelativeLayout) findViewById(R.id.btn_group);
                 layout.setVisibility(View.VISIBLE);
                 layout.setX((barcode.getBoundingBox().centerX() - 300));
                 layout.setY((barcode.getBoundingBox().centerY() - 300));
@@ -256,5 +257,19 @@ public final class MultiTrackerActivity extends AppCompatActivity implements Bar
             }
         });
 
+    }
+
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.rating1:
+                view.getContext().startActivity(new Intent(view.getContext(), ReviewsActivity.class));
+                break;
+            case R.id.rating2:
+                view.getContext().startActivity(new Intent(view.getContext(), Activity.class));
+                break;
+            case R.id.rating3:
+                view.getContext().startActivity(new Intent(view.getContext(), ReviewsActivity.class));
+                break;
+        }
     }
 }
